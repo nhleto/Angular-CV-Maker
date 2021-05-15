@@ -6,6 +6,7 @@ import { ContainerComponent } from './container/container.component';
 import { PersonalInformationComponent } from './personal-information/personal-information.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [

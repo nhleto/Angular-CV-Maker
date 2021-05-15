@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
-  styleUrls: ['./personal-information.component.scss']
+  styleUrls: ['./personal-information.component.scss'],
 })
-export class PersonalInformationComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+export class PersonalInformationComponent {
+  message = "";
+  
+  constructor() {
   }
-
+  
 }
