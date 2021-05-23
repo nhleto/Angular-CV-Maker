@@ -12,8 +12,8 @@ export class WindowService {
 
   constructor() { }
 
-  subPub(){
-    this.resizeObservable$ = fromEvent(window, 'resize')
+  subPub() : Observable<any>{
+    return this.resizeObservable$ = fromEvent(window, 'resize')
     // this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
     //   this.test(evt)
     // })

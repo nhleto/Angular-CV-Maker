@@ -21,29 +21,27 @@ import {WindowService} from "../Services/window.service";
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() height = this.windowResize.height
-  @Input() width = this.windowResize.width
-
+export class GridComponent implements OnInit, OnDestroy {
   Arr: number[] = [...Array(51).keys()];
   Tiles: ITile[] = [];
   resizeSubscription$!: Subscription
+  height!: number;
+  width!: number;
 
   constructor(private windowResize: WindowService) { }
 
   ngOnInit(){
-    this.windowResize.subPub()
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.height = this.windowResize.height
-    this.width = this.windowResize.width
-    console.log(this.height, this.width)
-    console.log(changes)
+    this.resizeSubscription$ = this.windowResize.subPub().subscribe(
+      ((size) => {
+        this.height = size.target.innerHeight;
+        this.width = size.target.innerWidth;
+        console.log(this.width, this.height);
+      })
+    )
   }
 
   ngOnDestroy() {
-    // this.windowResize.unSub()
+    this.resizeSubscription$.unsubscribe()
   }
 
 }
