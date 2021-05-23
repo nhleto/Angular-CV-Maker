@@ -1,8 +1,8 @@
-<mat-grid-list class="grid" [ngStyle]="HeightxWidth" cols="10">
+<mat-grid-list class="grid" cols="10">
   <mat-grid-tile
     *ngFor="let index of Arr"
     class="tile"
     id="tile">
-    <app-tile></app-tile>
+    <app-tile [Index]="index"></app-tile>
   </mat-grid-tile>
 </mat-grid-list>
