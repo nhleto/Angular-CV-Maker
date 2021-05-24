@@ -25,13 +25,13 @@ export class GridComponent implements OnInit, OnDestroy {
   Arr: number[] = [...Array(51).keys()];
   Tiles: ITile[] = [];
   resizeSubscription$!: Subscription
-  height!: number;
-  width!: number;
+  width = window.innerWidth;
+  height = window.innerHeight;
 
   constructor(private windowResize: WindowService) { }
 
   ngOnInit(){
-    this.resizeSubscription$ = this.windowResize.subPub().subscribe(
+    this.resizeSubscription$ = this.windowResize.windowObs().subscribe(
       ((size) => {
         this.height = size.target.innerHeight;
         this.width = size.target.innerWidth;

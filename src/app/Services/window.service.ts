@@ -6,26 +6,20 @@ import {fromEvent, Observable, Subscription} from "rxjs";
 })
 export class WindowService {
   resizeObservable$!: Observable<Event>
-
   width!: number;
   height!: number;
-
   constructor() { }
 
-  subPub() : Observable<any>{
+  windowObs(): Observable<any>{
     return this.resizeObservable$ = fromEvent(window, 'resize')
-    // this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-    //   this.test(evt)
-    // })
   }
+
+  // tileObs(tile?: Element): Observable<any>{
+  //   return this.resizeObservable$ = fromEvent(, 'resize')
+  // }
 
   test = (evt: any) => {
     this.width = evt.target.innerWidth
     this.height = evt.target.innerHeight
   }
-  //
-  // unSub(){
-  //   this.resizeSubscription$.unsubscribe()
-  // }
-
 }
