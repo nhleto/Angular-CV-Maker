@@ -1,19 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  OnChanges,
-  SimpleChanges, Input
-} from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { ITile } from "../Models/ITile";
-import { TileComponent } from "../tile/tile.component";
-import {from, fromEvent, merge, Observable, of, Subscription} from "rxjs";
-import {element} from "protractor";
-import {distinctUntilChanged, map} from "rxjs/operators";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from "rxjs";
 import {WindowService} from "../Services/window.service";
 
 @Component({
@@ -22,12 +8,11 @@ import {WindowService} from "../Services/window.service";
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Arr: number[] = [...Array(51).keys()];
-  Tiles: ITile[] = [];
+  Tiles: number[] = [...Array(51).keys()];
   resizeSubscription$!: Subscription
   width = window.innerWidth;
   height = window.innerHeight;
-
+  chosenTiles:string[] = []
   constructor(private windowResize: WindowService) { }
 
   ngOnInit(){
@@ -38,6 +23,19 @@ export class GridComponent implements OnInit, OnDestroy {
         console.log(this.width, this.height);
       })
     )
+    this.randomNumber()
+  }
+
+  randomNumber() {
+    const choose = [...Array(9)].map((_, i) => {
+      let x = (Math.floor(Math.random() * this.Tiles.length)).toString()
+      this.chosenTiles.push(this.#recur(x, this.chosenTiles))
+    })
+    console.log(this.chosenTiles)
+  }
+
+  #recur = (index: string, tilesArray: string[]) => {
+    return !tilesArray.includes(index) ? index : (Math.floor(Math.random() * this.Tiles.length)).toString();
   }
 
   ngOnDestroy() {
