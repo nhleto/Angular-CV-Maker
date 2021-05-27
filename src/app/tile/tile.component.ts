@@ -9,7 +9,8 @@ import {ITile} from "../Models/ITile";
   styleUrls: ['./tile.component.scss']
 })
 export class TileComponent implements OnInit, OnDestroy, ITile {
-  @Input() Index!: number;
+  @Input() index!: number;
+  @Input() chosen!: boolean;
   width = 0
   height = 0
   resizeSubscription$!: Subscription
@@ -20,7 +21,7 @@ export class TileComponent implements OnInit, OnDestroy, ITile {
   }
 
   ngOnInit(): void {
-    this.text = this.Index.toString()
+    this.text = this.index.toString()
   }
 
   ngOnDestroy() {

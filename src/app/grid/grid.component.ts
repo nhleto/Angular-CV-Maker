@@ -8,11 +8,12 @@ import {WindowService} from "../Services/window.service";
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Tiles: number[] = [...Array(51).keys()];
+  Tiles: number[] = [...Array(50).keys()];
   resizeSubscription$!: Subscription
   width = window.innerWidth;
   height = window.innerHeight;
-  chosenTiles:string[] = []
+  chosenTiles:number[] = []
+  indicator = true;
   constructor(private windowResize: WindowService) { }
 
   ngOnInit(){
@@ -28,14 +29,14 @@ export class GridComponent implements OnInit, OnDestroy {
 
   randomNumber() {
     const choose = [...Array(9)].map((_, i) => {
-      let x = (Math.floor(Math.random() * this.Tiles.length)).toString()
-      this.chosenTiles.push(this.#recur(x, this.chosenTiles))
+      let x = Math.floor(Math.random() * this.Tiles.length)
+      this.chosenTiles.push(<number>this.#recur(x, this.chosenTiles))
     })
     console.log(this.chosenTiles)
   }
 
-  #recur = (index: string, tilesArray: string[]) => {
-    return !tilesArray.includes(index) ? index : (Math.floor(Math.random() * this.Tiles.length)).toString();
+  #recur = (index: number, tilesArray: number[]) => {
+    return !tilesArray.includes(index) ? index : Math.floor(Math.random() * this.Tiles.length);
   }
 
   ngOnDestroy() {
