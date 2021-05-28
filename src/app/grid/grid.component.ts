@@ -8,15 +8,16 @@ import {WindowService} from "../Services/window.service";
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Tiles: number[] = [...Array(50).keys()];
+  Tiles: number[] = [...Array(40).keys()];
   resizeSubscription$!: Subscription
   width = window.innerWidth;
   height = window.innerHeight;
-  chosenTiles:number[] = []
-  indicator = true;
-  constructor(private windowResize: WindowService) { }
+  chosenTiles: number[] = []
 
-  ngOnInit(){
+  constructor(private windowResize: WindowService) {
+  }
+
+  ngOnInit() {
     this.resizeSubscription$ = this.windowResize.windowObs().subscribe(
       ((size) => {
         this.height = size.target.innerHeight;
@@ -30,17 +31,17 @@ export class GridComponent implements OnInit, OnDestroy {
   randomNumber() {
     const choose = [...Array(9)].map((_, i) => {
       let x = Math.floor(Math.random() * this.Tiles.length)
-      this.chosenTiles.push(<number>this.#recur(x, this.chosenTiles))
+      this.chosenTiles.push(<number>this.recur(x, this.chosenTiles))
     })
     console.log(this.chosenTiles)
   }
 
-  #recur = (index: number, tilesArray: number[]) => {
-    return !tilesArray.includes(index) ? index : Math.floor(Math.random() * this.Tiles.length);
-  }
-
   ngOnDestroy() {
     this.resizeSubscription$.unsubscribe()
+  }
+
+  private recur = (index: number, tilesArray: number[]) => {
+    return !tilesArray.includes(index) ? index : Math.floor(Math.random() * this.Tiles.length);
   }
 
 }
