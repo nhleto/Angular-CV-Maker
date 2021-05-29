@@ -12,7 +12,8 @@ export class GridComponent implements OnInit, OnDestroy {
   resizeSubscription$!: Subscription
   width = window.innerWidth;
   height = window.innerHeight;
-  chosenTiles: number[] = []
+  chosenTiles: number[] = [];
+  muted = false;
 
   constructor(private windowResize: WindowService) {
   }
@@ -34,6 +35,11 @@ export class GridComponent implements OnInit, OnDestroy {
       this.chosenTiles.push(<number>this.recur(x, this.chosenTiles))
     })
     console.log(this.chosenTiles)
+  }
+
+  muteTiles(input: boolean) {
+    this.muted = input
+    console.log("this is in parent component")
   }
 
   ngOnDestroy() {
