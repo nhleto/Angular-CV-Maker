@@ -1,9 +1,8 @@
 <mat-grid-list class="grid" cols="10">
-  <mat-grid-tile
-    *ngFor="let index of Tiles"
-    class="tile"
-    id="tile">
-    <app-tile [Index]="index"></app-tile>
+  <mat-grid-tile *ngFor="let index of Tiles" class="tile" id="tile">
+    <app-tile
+      [Index]="index"
+      [tileArray]="chosenTiles"
+    ></app-tile>
   </mat-grid-tile>
 </mat-grid-list>
-

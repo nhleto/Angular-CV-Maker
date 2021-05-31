@@ -1,30 +1,37 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {WindowService} from "../Services/window.service";
-import {Subscription} from "rxjs";
-import {ITile} from "../Models/ITile";
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { WindowService } from '../Services/window.service';
+import { Subscription } from 'rxjs';
+import { ITile } from '../Models/ITile';
 
 @Component({
   selector: 'app-tile',
   templateUrl: './tile.component.html',
-  styleUrls: ['./tile.component.scss']
+  styleUrls: ['./tile.component.scss'],
 })
-export class TileComponent implements OnInit, OnDestroy, ITile {
+export class TileComponent implements OnInit, ITile {
   @Input() Index!: number;
-  width = 0
-  height = 0
-  resizeSubscription$!: Subscription
-  tile = document.querySelector('#tile')
+  @Input() tileArray!: number[];
+  width = 0;
+  height = 0;
+  resizeSubscription$!: Subscription;
   text!: string;
+  chosen!: boolean;
 
-  constructor(private windowResize: WindowService) {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.text = this.Index.toString()
+    this.text = this.Index.toString();
+    this.chosen = this.calcChosen();
   }
 
-  ngOnDestroy() {
-    // this.resizeSubscription$.unsubscribe()
+  calcChosen(): boolean {
+    return this.tileArray.includes(this.Index);
   }
-
 }
