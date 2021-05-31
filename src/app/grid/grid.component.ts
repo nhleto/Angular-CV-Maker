@@ -9,36 +9,42 @@ import { WindowService } from '../Services/window.service';
 })
 export class GridComponent implements OnInit, OnDestroy {
   Tiles: number[] = [...Array(40).keys()];
-  resizeSubscription$!: Subscription
+  resizeSubscription$!: Subscription;
   width = window.innerWidth;
   height = window.innerHeight;
   chosenTiles: number[] = [];
   muted = false;
+  score = 0;
 
-  constructor(private windowResize: WindowService) {
-  }
+  constructor(private windowResize: WindowService) {}
 
   ngOnInit() {
-    this.resizeSubscription$ = this.windowResize.windowObs().subscribe(
-      ((size) => {
+    this.resizeSubscription$ = this.windowResize
+      .windowObs()
+      .subscribe((size) => {
         this.height = size.target.innerHeight;
         this.width = size.target.innerWidth;
         console.log(this.width, this.height);
-      }));
+      });
     this.randomNumber();
   }
 
   randomNumber() {
+    //TODO: Logic not correct. Still getting double numbers
     const choose = [...Array(9)].map((_, i) => {
-      let x = Math.floor(Math.random() * this.Tiles.length)
-      this.chosenTiles.push(<number>this.recur(x, this.chosenTiles))
-    })
-    console.log(this.chosenTiles)
+      let x = Math.floor(Math.random() * this.Tiles.length);
+      this.chosenTiles.push(<number>this.recur(x, this.chosenTiles));
+    });
+    console.log(this.chosenTiles);
   }
 
   muteTiles(input: boolean) {
-    this.muted = input
-    console.log("this is in parent component")
+    this.muted = input;
+  }
+
+  incrementScore(input: number){
+    this.score = input
+    console.log(this.score)
   }
 
   ngOnDestroy() {
@@ -46,7 +52,8 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   private recur = (index: number, tilesArray: number[]) => {
-    return !tilesArray.includes(index) ? index : Math.floor(Math.random() * this.Tiles.length);
-  }
-
+    return !tilesArray.includes(index)
+      ? index
+      : Math.floor(Math.random() * this.Tiles.length);
+  };
 }

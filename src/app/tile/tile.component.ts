@@ -10,13 +10,14 @@ export class TileComponent implements OnInit, ITile {
   @Input() index!: number;
   @Input() tileCollection!: number[];
   @Input() muteTilesFinal!: number;
+  @Input() childScore!: number;
   @Output() returnedValue = new EventEmitter<boolean>();
+  @Output() sendScore = new EventEmitter<number>();
   width = 0;
   height = 0;
   text!: string;
   displayIndex = 0;
   chosen!: boolean;
-  score = 0;
 
   constructor() {}
 
@@ -33,11 +34,15 @@ export class TileComponent implements OnInit, ITile {
   }
 
   selectTile() {
-    this.score += 1;
     this.mTiles();
+    this.addScore();
   }
 
   mTiles() {
     this.returnedValue.emit(true);
+  }
+
+  addScore() {
+    this.sendScore.emit((this.childScore += 1));
   }
 }
