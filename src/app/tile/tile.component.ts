@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { WindowService } from '../Services/window.service';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ITile } from '../Models/ITile';
 
 @Component({
@@ -16,22 +7,37 @@ import { ITile } from '../Models/ITile';
   styleUrls: ['./tile.component.scss'],
 })
 export class TileComponent implements OnInit, ITile {
-  @Input() Index!: number;
-  @Input() tileArray!: number[];
+  @Input() index!: number;
+  @Input() tileCollection!: number[];
+  @Input() muteTilesFinal!: number;
+  @Output() returnedValue = new EventEmitter<boolean>();
   width = 0;
   height = 0;
-  resizeSubscription$!: Subscription;
   text!: string;
+  displayIndex = 0;
   chosen!: boolean;
+  score = 0;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.text = this.Index.toString();
-    this.chosen = this.calcChosen();
+    this.text = this.index.toString();
+    this.calcIndex();
   }
 
-  calcChosen(): boolean {
-    return this.tileArray.includes(this.Index);
+  calcIndex() {
+    if (this.tileCollection.includes(this.index)) {
+      this.chosen = true;
+      this.displayIndex = this.tileCollection.indexOf(this.index) + 1;
+    }
+  }
+
+  selectTile() {
+    this.score += 1;
+    this.mTiles();
+  }
+
+  mTiles() {
+    this.returnedValue.emit(true);
   }
 }
