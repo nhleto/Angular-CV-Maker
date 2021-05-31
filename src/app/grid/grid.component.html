@@ -1,10 +1,16 @@
-<mat-grid-list class="grid" cols="10">
-  <mat-grid-tile
+<div class="container">
+  <div
     *ngFor="let index of Tiles"
-    class="tile"
-    id="tile">
-    <app-tile [Index]="index"></app-tile>
-  </mat-grid-tile>
-  <h2>Width is: {{width}}</h2>
-</mat-grid-list>
-
+    [ngClass]="{ chosen: chosenTiles.includes(index) }"
+    class="square"
+    id="tile"
+  >
+    <app-tile
+      [childScore]="score"
+      [index]="index"
+      [tileCollection]="chosenTiles"
+      (returnedValue)="muteTiles($event)"
+      (sendScore)="incrementScore($event)"
+    ></app-tile>
+  </div>
+</div>

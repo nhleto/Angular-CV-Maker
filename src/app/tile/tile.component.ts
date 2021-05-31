@@ -1,30 +1,48 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {WindowService} from "../Services/window.service";
-import {Subscription} from "rxjs";
-import {ITile} from "../Models/ITile";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ITile } from '../Models/ITile';
 
 @Component({
   selector: 'app-tile',
   templateUrl: './tile.component.html',
-  styleUrls: ['./tile.component.scss']
+  styleUrls: ['./tile.component.scss'],
 })
-export class TileComponent implements OnInit, OnDestroy, ITile {
-  @Input() Index!: number;
-  width = 0
-  height = 0
-  resizeSubscription$!: Subscription
-  tile = document.querySelector('#tile')
+export class TileComponent implements OnInit, ITile {
+  @Input() index!: number;
+  @Input() tileCollection!: number[];
+  @Input() muteTilesFinal!: number;
+  @Input() childScore!: number;
+  @Output() returnedValue = new EventEmitter<boolean>();
+  @Output() sendScore = new EventEmitter<number>();
+  width = 0;
+  height = 0;
   text!: string;
+  displayIndex = 0;
+  chosen!: boolean;
 
-  constructor(private windowResize: WindowService) {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.text = this.Index.toString()
+    this.text = this.index.toString();
+    this.calcIndex();
   }
 
-  ngOnDestroy() {
-    // this.resizeSubscription$.unsubscribe()
+  calcIndex() {
+    if (this.tileCollection.includes(this.index)) {
+      this.chosen = true;
+      this.displayIndex = this.tileCollection.indexOf(this.index) + 1;
+    }
   }
 
+  selectTile() {
+    this.mTiles();
+    this.addScore();
+  }
+
+  mTiles() {
+    this.returnedValue.emit(true);
+  }
+
+  addScore() {
+    this.sendScore.emit((this.childScore += 1));
+  }
 }
