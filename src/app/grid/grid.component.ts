@@ -13,7 +13,7 @@ export class GridComponent implements OnInit, OnDestroy {
   width = window.innerWidth;
   height = window.innerHeight;
   chosenTiles: number[] = [];
-  muted = false;
+  resetTiles = false;
   score = 0;
 
   constructor(private windowResize: WindowService) {}
@@ -39,11 +39,11 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   muteTiles(input: boolean) {
-    this.muted = input;
+    this.resetTiles = input;
   }
 
   incrementScore(input: number){
-    this.score = input
+    this.score = input + 1
     console.log(this.score)
   }
 

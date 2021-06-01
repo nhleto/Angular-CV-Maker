@@ -1,7 +1,9 @@
-<div (click)="selectTile()" [ngClass]="{ flex: chosen }">
-  <div class="table">
-    <div class="table-cell">
-      <h1 *ngIf="displayIndex" class="tileNumber">{{ displayIndex }}</h1>
+<div *ngIf="!hidden">
+  <div (click)="interactWithTiles()" [ngClass]="{ flex: chosen }">
+    <div class="table">
+      <div class="table-cell">
+        <h1 *ngIf="displayIndex" class="tileNumber">{{ displayIndex }}</h1>
+      </div>
     </div>
   </div>
 </div>
