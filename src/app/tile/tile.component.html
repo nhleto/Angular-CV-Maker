@@ -1,8 +1,8 @@
-<div *ngIf="!hidden">
+<div>
   <div (click)="interactWithTiles()" [ngClass]="{ flex: chosen }">
     <div class="table">
       <div class="table-cell">
-        <h1 *ngIf="displayIndex" class="tileNumber">{{ displayIndex }}</h1>
+        <h1 *ngIf="displayIndex && !startGame" class="tileNumber">{{ displayIndex }}</h1>
       </div>
     </div>
   </div>
