@@ -47,14 +47,17 @@ export class TileComponent implements OnInit, ITile {
   private calculateReset() {
     if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1){
       console.log("dont reset")
-      // this.mTiles();
+      // below function is responsible for muting tiles when game starts;
+      // if the correct tile isn't chosen, dont start the game
+      this.sendTileState(true);
     } else {
+      this.sendTileState(false);
       console.log("reset and send to parent component")
     }
   }
 
-  private mTiles() {
-    this.returnedValue.emit(true);
+  private sendTileState(input:boolean) {
+    this.returnedValue.emit(input);
   }
 
   private addScore() {
