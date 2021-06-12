@@ -30,10 +30,9 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   randomNumber() {
-    //TODO: Logic not correct. Still getting double numbers
-    const choose = [...Array(9)].map((_, i) => {
+    [...Array(9)].map((_, i) => {
       let x = Math.floor(Math.random() * this.Tiles.length);
-      this.chosenTiles.push(<number>this.recur(x, this.chosenTiles));
+      this.chosenTiles.push(this.recur(x, this.chosenTiles));
     });
     console.log(this.chosenTiles);
   }
@@ -43,7 +42,7 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   incrementScore(input: number){
-    this.score = input + 1
+    this.score = input;
     console.log(this.score)
   }
 
@@ -51,9 +50,12 @@ export class GridComponent implements OnInit, OnDestroy {
     this.resizeSubscription$.unsubscribe();
   }
 
-  private recur = (index: number, tilesArray: number[]) => {
-    return !tilesArray.includes(index)
-      ? index
-      : Math.floor(Math.random() * this.Tiles.length);
+  private recur = (index: number, tilesArray: number[]) : any => {
+    if (!tilesArray.includes(index)){
+      return index;
+    } else {
+      const newNumber = Math.floor(Math.random() * this.Tiles.length);
+      return this.recur(newNumber, tilesArray);
+    }
   };
 }

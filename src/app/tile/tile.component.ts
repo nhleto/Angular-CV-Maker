@@ -13,7 +13,7 @@ export class TileComponent implements OnInit, ITile {
   @Input() childScore!: number;
   @Input() startGame!: boolean;
   @Output() returnedValue = new EventEmitter<boolean>();
-  @Output() sendScore = new EventEmitter<number>();
+  @Output() sendScoreToParent = new EventEmitter<number>();
   width = 0;
   height = 0;
   text!: string;
@@ -23,7 +23,7 @@ export class TileComponent implements OnInit, ITile {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.startGame,"in tile component")
+    console.log(this.startGame, 'in tile component');
     this.text = this.index.toString();
     this.calcIndex();
   }
@@ -36,31 +36,25 @@ export class TileComponent implements OnInit, ITile {
   }
 
   interactWithTiles() {
-    console.log(this.startGame, "in tile component")
-    this.addScore()
-    this.calculateReset()
-    // Setting hidden here doesn't matter...
-    // needs to be one component up
-    // this.hidden = true;
+    this.calculateReset();
   }
 
   private calculateReset() {
-    if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1){
-      console.log("dont reset")
-      // below function is responsible for muting tiles when game starts;
-      // if the correct tile isn't chosen, dont start the game
-      this.sendTileState(true);
+    if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1) {
+      console.log('dont reset');
+      this.sendScore(this.childScore + 1);
     } else {
       this.sendTileState(false);
-      console.log("reset and send to parent component")
+      this.sendScore((this.childScore = 0));
+      console.log('reset and send to parent component');
     }
   }
 
-  private sendTileState(input:boolean) {
+  private sendTileState(input: boolean) {
     this.returnedValue.emit(input);
   }
 
-  private addScore() {
-    this.sendScore.emit(this.childScore);
+  private sendScore(input: number) {
+    this.sendScoreToParent.emit(input);
   }
 }
