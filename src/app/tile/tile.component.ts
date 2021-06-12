@@ -23,7 +23,7 @@ export class TileComponent implements OnInit, ITile {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.startGame)
+    console.log(this.startGame,"in tile component")
     this.text = this.index.toString();
     this.calcIndex();
   }
@@ -36,7 +36,7 @@ export class TileComponent implements OnInit, ITile {
   }
 
   interactWithTiles() {
-    console.log(this.startGame)
+    console.log(this.startGame, "in tile component")
     this.addScore()
     this.calculateReset()
     // Setting hidden here doesn't matter...
@@ -47,10 +47,9 @@ export class TileComponent implements OnInit, ITile {
   private calculateReset() {
     if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1){
       console.log("dont reset")
+      // this.mTiles();
     } else {
-      // This gets sent to parent component,
-      // still dont do anything with it yet
-      this.mTiles();
+      console.log("reset and send to parent component")
     }
   }
 
