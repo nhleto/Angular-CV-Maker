@@ -8,7 +8,7 @@ import { WindowService } from '../Services/window.service';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Tiles: number[] = [...Array(40).keys()];
+  Tiles: number[] = [...Array(49).keys()];
   resizeSubscription$!: Subscription;
   width = window.innerWidth;
   height = window.innerHeight;

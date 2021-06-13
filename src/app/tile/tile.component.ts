@@ -42,6 +42,7 @@ export class TileComponent implements OnInit, ITile {
   private calculateReset() {
     if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1) {
       console.log('dont reset');
+      // this.sendTileState(true);
       this.sendScore(this.childScore + 1);
     } else {
       this.sendTileState(false);
