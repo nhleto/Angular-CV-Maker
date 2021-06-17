@@ -19,11 +19,11 @@ export class TileComponent implements OnInit, ITile {
   text!: string;
   displayIndex = 0;
   chosen!: boolean;
+  correctTile = true;
 
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.startGame, 'in tile component');
     this.text = this.index.toString();
     this.calcIndex();
   }
@@ -42,7 +42,7 @@ export class TileComponent implements OnInit, ITile {
   private calculateReset() {
     if (this.childScore + 1 === this.tileCollection.indexOf(this.index) + 1) {
       console.log('dont reset');
-      // this.sendTileState(true);
+      this.sendTileState(true);
       this.sendScore(this.childScore + 1);
     } else {
       this.sendTileState(false);
@@ -52,6 +52,9 @@ export class TileComponent implements OnInit, ITile {
   }
 
   private sendTileState(input: boolean) {
+    if (input){
+      this.correctTile = false;
+    }
     this.returnedValue.emit(input);
   }
 

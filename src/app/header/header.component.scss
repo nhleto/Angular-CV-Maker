@@ -1,0 +1,13 @@
+nav{
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav{
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  &.end{
+    border-radius: 10px;
+  }
+}

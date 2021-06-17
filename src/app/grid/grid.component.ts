@@ -8,13 +8,14 @@ import { WindowService } from '../Services/window.service';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Tiles: number[] = [...Array(49).keys()];
+  Tiles: number[] = [...Array(75).keys()];
   resizeSubscription$!: Subscription;
   width = window.innerWidth;
   height = window.innerHeight;
   chosenTiles: number[] = [];
   resetTiles = false;
   score = 0;
+  gameDifficulty = 9;
 
   constructor(private windowResize: WindowService) {}
 
@@ -30,7 +31,7 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   randomNumber() {
-    [...Array(9)].map((_, i) => {
+    [...Array(this.gameDifficulty)].map((_, i) => {
       let x = Math.floor(Math.random() * this.Tiles.length);
       this.chosenTiles.push(this.recur(x, this.chosenTiles));
     });
