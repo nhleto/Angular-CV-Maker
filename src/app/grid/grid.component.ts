@@ -9,7 +9,7 @@ import { WindowService } from '../Services/window.service';
 })
 export class GridComponent implements OnInit, OnDestroy {
   Tiles: number[] = [...Array(75).keys()];
-  resizeSubscription$!: Subscription;
+  $resizeSubscription!: Subscription;
   width = window.innerWidth;
   height = window.innerHeight;
   chosenTiles: number[] = [];
@@ -20,7 +20,7 @@ export class GridComponent implements OnInit, OnDestroy {
   constructor(private windowResize: WindowService) {}
 
   ngOnInit() {
-    this.resizeSubscription$ = this.windowResize
+    this.$resizeSubscription = this.windowResize
       .windowObs()
       .subscribe((size) => {
         this.height = size.target.innerHeight;
@@ -47,8 +47,12 @@ export class GridComponent implements OnInit, OnDestroy {
     console.log(this.score)
   }
 
+  resetGame(input: boolean) {
+    input ? this.randomNumber() : null;
+  }
+
   ngOnDestroy() {
-    this.resizeSubscription$.unsubscribe();
+    this.$resizeSubscription.unsubscribe();
   }
 
   private recur = (index: number, tilesArray: number[]) : any => {

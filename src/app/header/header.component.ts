@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -11,9 +10,12 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 export class HeaderComponent implements OnInit {
   faCoffee = faCoffee;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  reset() {
+  }
 }
