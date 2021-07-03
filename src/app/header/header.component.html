@@ -1,8 +1,13 @@
 <header>
   <nav>
-    <div class="nav start">Start</div>
+    <div class="nav start">
+      <span>Difficulty</span>
+      <div class="slide-container">
+        <input type="range" min="1" max="10" class="slider">
+      </div>
+    </div>
     <div class="nav end" (click)="reset()">
-      Reset
+      <span>Reset</span>
       <fa-icon [icon]="faCoffee"></fa-icon>
     </div>
   </nav>
