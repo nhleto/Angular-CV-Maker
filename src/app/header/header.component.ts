@@ -1,21 +1,19 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {faCoffee} from '@fortawesome/free-solid-svg-icons';
-
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { GameStateService } from '../Services/game-state.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   faCoffee = faCoffee;
+  resetGame!: boolean;
 
-  constructor() {
-  }
+  constructor(private gameState: GameStateService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  reset() {
-  }
+  reset() {}
 }
