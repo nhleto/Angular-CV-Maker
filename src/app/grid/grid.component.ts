@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WindowService } from '../Services/window.service';
+import { GameStateService } from '../Services/game-state.service';
 
 @Component({
   selector: 'app-grid',
@@ -10,6 +11,7 @@ import { WindowService } from '../Services/window.service';
 export class GridComponent implements OnInit, OnDestroy {
   Tiles: number[] = [...Array(75).keys()];
   $resizeSubscription!: Subscription;
+  $gameStateSubscription!: Subscription;
   width = window.innerWidth;
   height = window.innerHeight;
   chosenTiles: number[] = [];
@@ -17,9 +19,12 @@ export class GridComponent implements OnInit, OnDestroy {
   score = 0;
   gameDifficulty = 9;
 
-  constructor(private windowResize: WindowService) {}
+  constructor(private windowResize: WindowService, private gameState: GameStateService) {}
 
   ngOnInit() {
+    this.$gameStateSubscription = this.gameState.gameStateObservable.subscribe((value) => {
+        console.log(`Value of reset from game state service is ${value}`)
+    })
     this.$resizeSubscription = this.windowResize
       .windowObs()
       .subscribe((size) => {

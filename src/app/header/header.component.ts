@@ -3,17 +3,20 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { GameStateService } from '../Services/game-state.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  faCoffee = faCoffee;
-  resetGame!: boolean;
+    faCoffee = faCoffee;
+    resetGame!: boolean;
 
-  constructor(private gameState: GameStateService) {}
+    constructor(private gameState: GameStateService) {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 
-  reset() {}
+    reset() {
+        console.log("clicked reset in header")
+        this.gameState.resetGameState(true);
+    }
 }
