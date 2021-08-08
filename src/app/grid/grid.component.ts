@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {pipe, Subscription} from 'rxjs';
 import { WindowService } from '../Services/window.service';
 import { GameStateService } from '../Services/game-state.service';
 
@@ -12,8 +12,6 @@ export class GridComponent implements OnInit, OnDestroy {
   Tiles: number[] = [...Array(75).keys()];
   $resizeSubscription!: Subscription;
   $gameStateSubscription!: Subscription;
-  width = window.innerWidth;
-  height = window.innerHeight;
   chosenTiles: number[] = [];
   resetTiles = false;
   score = 0;
@@ -22,17 +20,14 @@ export class GridComponent implements OnInit, OnDestroy {
   constructor(private windowResize: WindowService, private gameState: GameStateService) {}
 
   ngOnInit() {
-    this.$gameStateSubscription = this.gameState.gameStateObservable.subscribe((value) => {
-        console.log(`Value of reset from game state service is ${value}`)
-    })
-    this.$resizeSubscription = this.windowResize
-      .windowObs()
-      .subscribe((size) => {
-        this.height = size.target.innerHeight;
-        this.width = size.target.innerWidth;
-        console.log(this.width, this.height);
-      });
     this.randomNumber();
+    this.$gameStateSubscription = this.gameState.reset.subscribe(
+      res => {
+        console.log(`Observer got passed ${res}`)
+      } ,
+      error => console.error(error),
+      () => console.log("Observer complete")
+    )
   }
 
   randomNumber() {
@@ -58,6 +53,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.$resizeSubscription.unsubscribe();
+    this.$gameStateSubscription.unsubscribe();
   }
 
   private recur = (index: number, tilesArray: number[]) : any => {

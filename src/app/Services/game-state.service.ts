@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class GameStateService {
-    reset!: boolean;
-    gameStateObservable!: Observable<Event>;
+  private _reset: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public readonly reset: Observable<boolean> = this._reset.asObservable();
 
-    constructor() {}
+  constructor() {
+  }
 
-    public resetGameState(input: boolean) {
-        this.reset = input;
-        console.log(`we are in the gameState service. Reset value is: ${this.reset}`)
-    }
+  public resetGameState(input: boolean) {
+    this._reset.next(input);
+  }
 }
