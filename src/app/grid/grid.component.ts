@@ -23,17 +23,10 @@ export class GridComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.$gameStateSubscription = this.gameState.gameStateSubject.subscribe(
+        this.$gameStateSubscription = this.gameState.reset.subscribe(
             (resetVal) => { console.log(resetVal) }
         );
 
-        this.$resizeSubscription = this.windowResize
-            .windowObs()
-            .subscribe((size) => {
-                this.height = size.target.innerHeight;
-                this.width = size.target.innerWidth;
-                console.log(this.width, this.height);
-            });
         this.randomNumber();
     }
 
