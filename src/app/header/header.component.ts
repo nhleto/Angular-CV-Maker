@@ -17,6 +17,6 @@ export class HeaderComponent implements OnInit {
 
     reset() {
         console.log("clicked reset in header")
-        this.gameState.resetGameState(true);
+        this.gameState.gameStateObservable
     }
 }

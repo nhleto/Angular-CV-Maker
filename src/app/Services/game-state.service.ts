@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, Subject, Subscriber} from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 export class GameStateService {
     reset!: boolean;
     gameStateObservable!: Observable<Event>;
+    gameStateSubject!: Subject<any>;
 
     constructor() {}
 
     public resetGameState(input: boolean) {
-        this.reset = input;
-        console.log(`we are in the gameState service. Reset value is: ${this.reset}`)
+        this.gameStateSubject.next(input);
     }
 }
