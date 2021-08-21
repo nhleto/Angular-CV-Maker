@@ -34,16 +34,13 @@ export class GridComponent implements OnInit, OnDestroy {
       }
     );
 
-
-
-
     this.randomNumber();
   }
 
   randomNumber() {
     [...Array(this.gameDifficulty)].map((_, i) => {
       let x = Math.floor(Math.random() * this.Tiles.length);
-      this.chosenTiles.push(this.recur(x, this.chosenTiles));
+      this.chosenTiles.push(this.calculateRemainingIndex(x, this.chosenTiles));
     });
     console.log(this.chosenTiles);
   }
@@ -70,12 +67,12 @@ export class GridComponent implements OnInit, OnDestroy {
     this.$gameStateSubscription.unsubscribe();
   }
 
-  private recur = (index: number, tilesArray: number[]): any => {
+  private calculateRemainingIndex = (index: number, tilesArray: number[]): any => {
     if (!tilesArray.includes(index)) {
       return index;
     } else {
       const newNumber = Math.floor(Math.random() * this.Tiles.length);
-      return this.recur(newNumber, tilesArray);
+      return this.calculateRemainingIndex(newNumber, tilesArray);
     }
   };
 }
