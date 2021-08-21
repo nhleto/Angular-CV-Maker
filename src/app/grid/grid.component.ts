@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {pipe, Subscription} from 'rxjs';
-import { WindowService } from '../Services/window.service';
-import { GameStateService } from '../Services/game-state.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {WindowService} from '../Services/window.service';
+import {GameStateService} from '../Services/game-state.service';
 
 @Component({
-    selector: 'app-grid',
-    templateUrl: './grid.component.html',
-    styleUrls: ['./grid.component.scss'],
+  selector: 'app-grid',
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, OnDestroy {
-  Tiles: number[] = [...Array(75).keys()];
+  Tiles!: number[]
   $resizeSubscription!: Subscription;
   $gameStateSubscription!: Subscription;
   chosenTiles: number[] = [];
@@ -17,18 +17,28 @@ export class GridComponent implements OnInit, OnDestroy {
   score = 0;
   gameDifficulty = 9;
 
-    constructor(
-        private windowResize: WindowService,
-        private gameState: GameStateService
-    ) {}
+  constructor(
+    private windowResize: WindowService,
+    private gameState: GameStateService
+  ) {
+  }
 
-    ngOnInit() {
-        this.$gameStateSubscription = this.gameState.reset.subscribe(
-            (resetVal) => { console.log(resetVal) }
-        );
+  ngOnInit() {
+    this.Tiles = this.gameState.seedTiles();
 
-        this.randomNumber();
-    }
+    this.$gameStateSubscription = this.gameState.reset.subscribe(
+      (resetVal) => {
+        if (resetVal) {
+          this.resetGame(true)
+        }
+      }
+    );
+
+
+
+
+    this.randomNumber();
+  }
 
   randomNumber() {
     [...Array(this.gameDifficulty)].map((_, i) => {
@@ -42,13 +52,17 @@ export class GridComponent implements OnInit, OnDestroy {
     this.resetTiles = input;
   }
 
-  incrementScore(input: number){
+  incrementScore(input: number) {
     this.score = input;
     console.log(this.score)
   }
 
   resetGame(input: boolean) {
-    input ? this.randomNumber() : null;
+    if (input) {
+      this.chosenTiles = [];
+      this.Tiles = this.gameState.seedTiles();
+      this.randomNumber();
+    }
   }
 
   ngOnDestroy() {
@@ -56,8 +70,8 @@ export class GridComponent implements OnInit, OnDestroy {
     this.$gameStateSubscription.unsubscribe();
   }
 
-  private recur = (index: number, tilesArray: number[]) : any => {
-    if (!tilesArray.includes(index)){
+  private recur = (index: number, tilesArray: number[]): any => {
+    if (!tilesArray.includes(index)) {
       return index;
     } else {
       const newNumber = Math.floor(Math.random() * this.Tiles.length);

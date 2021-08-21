@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ITile } from '../Models/ITile';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {ITile} from '../Models/ITile';
+import {GameStateService} from "../Services/game-state.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-tile',
   templateUrl: './tile.component.html',
   styleUrls: ['./tile.component.scss'],
 })
-export class TileComponent implements OnInit, ITile {
+export class TileComponent implements OnInit, ITile, OnDestroy, OnChanges {
   @Input() index!: number;
   @Input() tileCollection!: number[];
   @Input() muteTilesFinal!: number;
@@ -14,6 +16,7 @@ export class TileComponent implements OnInit, ITile {
   @Input() startGame!: boolean;
   @Output() returnedValue = new EventEmitter<boolean>();
   @Output() sendScoreToParent = new EventEmitter<number>();
+  $gameStateSubscription!: Subscription;
   width = 0;
   height = 0;
   text!: string;
@@ -21,11 +24,26 @@ export class TileComponent implements OnInit, ITile {
   chosen!: boolean;
   correctTile = true;
 
-  constructor() {}
+  constructor(private gameState: GameStateService) {
+  }
 
   ngOnInit(): void {
     this.text = this.index.toString();
     this.calcIndex();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['tileCollection']) {
+      console.log(changes)
+      this.tileCollection = changes['tileCollection'].currentValue;
+    }
+    this.$gameStateSubscription = this.gameState.reset.subscribe(
+      (sub) => {
+        if (sub) {
+          this.calcIndex()
+        }
+      }
+    )
   }
 
   calcIndex() {
@@ -37,6 +55,10 @@ export class TileComponent implements OnInit, ITile {
 
   interactWithTiles() {
     this.calculateReset();
+  }
+
+  ngOnDestroy() {
+    this.$gameStateSubscription.unsubscribe();
   }
 
   private calculateReset() {
@@ -52,7 +74,7 @@ export class TileComponent implements OnInit, ITile {
   }
 
   private sendTileState(input: boolean) {
-    if (input){
+    if (input) {
       this.correctTile = false;
     }
     this.returnedValue.emit(input);
