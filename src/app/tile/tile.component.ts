@@ -33,7 +33,6 @@ export class TileComponent implements OnInit, ITile, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.$gameStateSubscription = this.gameState.reset.subscribe(
       (sub) => {
         if (sub && changes['tileCollection']) {
